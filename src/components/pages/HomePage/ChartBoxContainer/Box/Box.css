@@ -1,0 +1,19 @@
+.boxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.box {
+  width: 500px;
+  height: 30px;
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  margin-left: 20px;
+  background-color: #fff;
+  align-items: center;
+}
+
+.box > div {
+  border: 1px solid black;
+}

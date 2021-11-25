@@ -1,12 +1,12 @@
 import { ColumnsContainer } from './ColumnsContainer/ColumnsContainer';
-
+import { ChartBoxContainer } from './ChartBoxContainer/ChartBoxContainer';
 import './HomePage.css';
 
 export const HomePage = () => {
   return (
-    <div className="root">
+    <main className="root">
       <ColumnsContainer />
-      <div style={{ flex: 5 }}></div>
-    </div>
+      <ChartBoxContainer />
+    </main>
   );
 };
