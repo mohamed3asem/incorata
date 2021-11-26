@@ -1,13 +1,21 @@
 import './Box.css';
 
-export const Box = ({ title = '' }) => {
+export const Box = ({ title = '', change }) => {
   const drop = (e) => {
-    console.log('pass');
-    e.preventDefault();
+    const itemFunction = e.dataTransfer.getData('item_function');
+    const itemName = e.dataTransfer.getData('item_name');
 
-    const itemId = e.dataTransfer.getData('item_id');
-    if (itemId !== title) return;
-    const item = document.getElementById(itemId);
+    if (itemFunction !== title) return;
+
+    if (title === 'dimension') {
+      change(itemName);
+    } else {
+      change((prev) => {
+        let newArr = [...prev, itemName];
+        return newArr;
+      });
+    }
+    const item = document.getElementById(itemFunction);
     item.style.display = 'block';
 
     e.target.appendChild(item);
@@ -16,6 +24,7 @@ export const Box = ({ title = '' }) => {
   const dragOver = (e) => {
     e.preventDefault();
   };
+
   return (
     <div className="boxContainer">
       <h6 className="title">{title}</h6>

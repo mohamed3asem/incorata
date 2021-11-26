@@ -3,7 +3,76 @@ import React, { useRef, useLayoutEffect } from 'react';
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 
-export const LineChart = ({ id = 'lineChartdiv' }) => {
+const data = [
+  {
+    dimension: '1930',
+    italy: 1,
+    germany: 5,
+    cost: 0,
+  },
+  {
+    dimension: '1934',
+    italy: 1,
+    germany: 2,
+    cost: 0,
+  },
+  {
+    dimension: '1938',
+    italy: 2,
+    germany: 3,
+    cost: 0,
+  },
+  {
+    dimension: '1950',
+    italy: 3,
+    germany: 4,
+    cost: 0,
+  },
+  {
+    dimension: '1954',
+    italy: 5,
+    germany: 1,
+    cost: 0,
+  },
+  {
+    dimension: '1958',
+    italy: 3,
+    germany: 2,
+    cost: 0,
+  },
+  {
+    dimension: '1962',
+    italy: 1,
+    germany: 2,
+    cost: 0,
+  },
+  {
+    dimension: '1966',
+    italy: 2,
+    germany: 1,
+    cost: 0,
+  },
+  {
+    dimension: '1970',
+    italy: 3,
+    germany: 5,
+    cost: 0,
+  },
+  {
+    dimension: '1974',
+    italy: 4,
+    germany: 3,
+    cost: 0,
+  },
+  {
+    dimension: '1978',
+    italy: 1,
+    germany: 2,
+    cost: 0,
+  },
+];
+
+export const LineChart = ({ id = 'lineChartdiv', chartData }) => {
   // console.log(data);
   //   const classes = useStyles();
   const nChart = useRef(null);
@@ -19,123 +88,44 @@ export const LineChart = ({ id = 'lineChartdiv' }) => {
       const am4core = modules[0];
       const am4charts = modules[1];
 
-      // var chart = am4core.create(id, am4charts.RadarChart);
       var chart = am4core.create(id, am4charts.XYChart);
 
-      // Add data
-      chart.data = [
-        {
-          date: new Date(2021, 1, 1),
-          value1: 50,
-          value2: 48,
-        },
-        {
-          date: new Date(2021, 2, 1),
-          value1: 33,
-          value2: 48,
-        },
-        {
-          date: new Date(2021, 3, 1),
-          value1: 25,
-          value2: 48,
-        },
-        {
-          date: new Date(2021, 4, 1),
-          value1: 50,
-          value2: 48,
-        },
-        {
-          date: new Date(2021, 5, 1),
-          value1: 53,
-          value2: 51,
-        },
-        {
-          date: new Date(2021, 6, 1),
-          value1: 56,
-          value2: 58,
-        },
-        {
-          date: new Date(2021, 7, 1),
-          value1: 52,
-          value2: 53,
-        },
-        {
-          date: new Date(2021, 8, 1),
-          value1: 48,
-          value2: 44,
-        },
-        {
-          date: new Date(2021, 9, 1),
-          value1: 47,
-          value2: 42,
-        },
-        {
-          date: new Date(2021, 10, 1),
-          value1: 59,
-          value2: 55,
-        },
-        {
-          date: new Date(2021, 11, 1),
-          value1: 11,
-          value2: 48,
-        },
-      ];
+      chart.data = chartData;
 
-      // Create axes
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      dateAxis.renderer.minGridDistance = 10;
-      dateAxis.renderer.grid.template.disabled = true;
-      dateAxis.renderer.labels.template.fontSize = '1.4rem';
-      dateAxis.title.text = 'Local country offices';
+      // Create category axis
+      var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.dataFields.category = 'dimension';
+      categoryAxis.renderer.grid.template.disabled = true;
+      categoryAxis.title.text = 'dimension';
 
+      // Create value axis
       var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.renderer.labels.template.fontSize = '1.4rem';
-      valueAxis.title.text = 'Local country offices';
-      // valueAxis.renderer.grid.template.disabled = true;
 
-      // Create series
-      // var series = chart.series.push(new am4charts.LineSeries());
-      // series.dataFields.valueY = 'value1';
-      // series.dataFields.dateX = 'date';
-      // series.strokeWidth = 2;
-      // series.minBulletDistance = 10;
-      // series.tooltipText = '[bold]{date.formatDate()}:[/] {value1}';
-      // series.tooltip.pointerOrientation = 'vertical';
+      valueAxis.title.text = 'measure';
+      valueAxis.renderer.minLabelPosition = 0.01;
 
-      const createSeries = (n) => {
+      let keys = Object.keys(chartData[0]);
+
+      keys?.forEach((key) => {
+        if (key === 'dimension') return;
+
         var series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.valueY = 'value' + n;
-        series.dataFields.dateX = 'date';
-        series.strokeWidth = 2;
-        series.minBulletDistance = 10;
-        series.tooltipText = `[bold]{date.formatDate()}:[/] {value${n}}`;
-        series.tooltip.pointerOrientation = 'vertical';
-        //   series.fill = 'red';
-        //   series.stroke = am4core.color('red');
+        series.dataFields.valueY = key;
+        series.dataFields.categoryX = 'dimension';
+        series.name = key;
         series.bullets.push(new am4charts.CircleBullet());
-      };
-      // Create series
-
-      [1, 2, 3, 4].forEach((n) => {
-        createSeries(n);
+        series.tooltipText = ' {name} - {categoryX}: {valueY}';
+        series.legendSettings.valueText = '{valueY}';
       });
-      // var series3 = chart.series.push(new am4charts.LineSeries());
-      // series3.dataFields.valueY = 'value3';
-      // series3.dataFields.dateX = 'date';
-      // series3.strokeWidth = 2;
+      // // Create series
 
-      // var series4 = chart.series.push(new am4charts.LineSeries());
-      // series4.dataFields.valueY = 'value4';
-      // series4.dataFields.dateX = 'date';
-      // series4.strokeWidth = 2;
-      // series2.strokeDasharray = "3,4";
-      // series2.stroke = series.stroke;
-
-      // Add cursor
+      // Add chart cursor
       chart.cursor = new am4charts.XYCursor();
-      chart.cursor.xAxis = dateAxis;
-      // Add cursor
-      // chart.cursor = new am4charts.RadarCursor();
+      // chart.cursor.behavior = "zoomY";
+
+      // Scrollbars
+      chart.scrollbarX = new am4core.Scrollbar();
+      chart.scrollbarY = new am4core.Scrollbar();
 
       // markerTemplate.dx = 50
       nChart.current = chart;
@@ -147,8 +137,8 @@ export const LineChart = ({ id = 'lineChartdiv' }) => {
       chart?.dispose();
     };
     // Chart code goes here
-  }, [id]);
+  }, [id, chartData]);
   return (
-    <div id={id} ref={nChart} style={{ width: '80%', height: '70%' }}></div>
+    <div id={id} ref={nChart} style={{ width: '100%', height: '70%' }}></div>
   );
 };
