@@ -3,11 +3,13 @@ import './Box.css';
 
 export const Box = memo(
   ({ title = '', changeData, boxFunction = '', dimension, measures }) => {
+    //
     const drop = useCallback(
       (e) => {
         const itemFunction = e.dataTransfer.getData('item_function');
         const itemName = e.dataTransfer.getData('item_name');
 
+        if (!itemFunction || !itemName) return;
         if (itemFunction !== boxFunction) return;
 
         if (boxFunction === 'dimension') {
@@ -20,6 +22,7 @@ export const Box = memo(
         }
 
         const item = document.getElementById(itemName);
+        if (!item) return;
         item.style.display = 'block';
 
         e.target.appendChild(item);
