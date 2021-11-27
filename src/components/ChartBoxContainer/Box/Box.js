@@ -13,6 +13,7 @@ export const Box = memo(
         if (itemFunction !== boxFunction) return;
 
         if (boxFunction === 'dimension') {
+          if (dimension) return;
           changeData(itemName);
         } else {
           changeData((prev) => {
@@ -27,7 +28,7 @@ export const Box = memo(
 
         e.target.appendChild(item);
       },
-      [boxFunction]
+      [boxFunction, dimension]
     );
 
     const dragOver = useCallback((e) => {
