@@ -1,48 +1,36 @@
 import { useState, useEffect } from 'react';
 
-import apiAxios from 'src/utils/apiAxios';
 import ErrorBoundry from 'src/components/ErrorBounderies/ErrorBoundary';
 import { LineChart } from 'src/components/Charts/LineChart/LineChart';
+import { useFetchData } from 'src/hooks/fetchData';
+import { formulateGraphData } from 'src/utils/helperFunctions';
 
 export const LineChartContainer = ({ dimension, measures }) => {
-  const [charData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
-  const fetchData = async (dimension, measures) => {
-    let data = await apiAxios.post('data', {
+  const rawData = useFetchData(
+    'data',
+    'post',
+    [dimension, measures, 'post', 'data'],
+    {
       measures,
       dimension,
-    });
-    data = data.data;
-
-    let dimensions = data.find(({ name }) => name === dimension);
-
-    let chartData = [];
-    dimensions.values.forEach((element) => {
-      chartData.push({ dimension: element });
-    });
-
-    data.forEach(({ name, values }) => {
-      name = name === 'Units sold' ? 'UnitsSold' : name;
-      if (name === dimension) return;
-      values.forEach((item, index) => {
-        chartData[index][name] = +item.toFixed(1);
-      });
-    });
-
-    setChartData(chartData);
-  };
+    }
+  );
 
   useEffect(() => {
-    if (dimension && measures.length) {
-      fetchData(dimension, measures);
+    if (rawData) {
+      const chartData = formulateGraphData(rawData, dimension);
+      setChartData(chartData);
     }
-  }, [dimension, measures]);
+  }, [rawData]);
 
-  if (!charData.length || !dimension || !measures.length) return null;
+  if (!chartData.length || !dimension || !measures.length) return null;
+
   return (
     <ErrorBoundry>
       <LineChart
-        chartData={charData}
+        chartData={chartData}
         dimension={dimension}
         measures={measures}
       />
