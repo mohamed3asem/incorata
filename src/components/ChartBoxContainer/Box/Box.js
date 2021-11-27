@@ -33,15 +33,17 @@ export const Box = ({
   };
 
   const clear = () => {
+    const column = document.getElementById('columnsContainer');
+    if (!column) return;
     if (boxFunction === 'dimension') {
-      const column = document.getElementById('columnsContainer');
       const el = document.getElementById(dimension);
+      if (!el) return;
       column.appendChild(el);
       change(null);
     } else {
       measures.forEach((measure) => {
-        const column = document.getElementById('columnsContainer');
         const el = document.getElementById(measure);
+        if (!el) return;
         column.appendChild(el);
       });
       change([]);

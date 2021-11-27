@@ -7,22 +7,6 @@ import { SingleColumnItem } from './SingleColumnItem/SingleColumnItem';
 import { useFetchData } from 'src/hooks/fetchData';
 
 export const ColumnsContainer = () => {
-  // const [columns, setColumns] = useState([]);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const data = await apiAxios.get('columns');
-
-  //     setColumns(data.data);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
   const columns = useFetchData('columns', ['columns']);
 
   if (!columns || !columns.length) return null;
