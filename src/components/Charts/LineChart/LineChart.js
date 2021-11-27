@@ -2,77 +2,14 @@ import React, { useRef, useLayoutEffect } from 'react';
 
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
+import './LineChart.css';
 
-const data = [
-  {
-    dimension: '1930',
-    italy: 1,
-    germany: 5,
-    cost: 0,
-  },
-  {
-    dimension: '1934',
-    italy: 1,
-    germany: 2,
-    cost: 0,
-  },
-  {
-    dimension: '1938',
-    italy: 2,
-    germany: 3,
-    cost: 0,
-  },
-  {
-    dimension: '1950',
-    italy: 3,
-    germany: 4,
-    cost: 0,
-  },
-  {
-    dimension: '1954',
-    italy: 5,
-    germany: 1,
-    cost: 0,
-  },
-  {
-    dimension: '1958',
-    italy: 3,
-    germany: 2,
-    cost: 0,
-  },
-  {
-    dimension: '1962',
-    italy: 1,
-    germany: 2,
-    cost: 0,
-  },
-  {
-    dimension: '1966',
-    italy: 2,
-    germany: 1,
-    cost: 0,
-  },
-  {
-    dimension: '1970',
-    italy: 3,
-    germany: 5,
-    cost: 0,
-  },
-  {
-    dimension: '1974',
-    italy: 4,
-    germany: 3,
-    cost: 0,
-  },
-  {
-    dimension: '1978',
-    italy: 1,
-    germany: 2,
-    cost: 0,
-  },
-];
-
-export const LineChart = ({ id = 'lineChartdiv', chartData }) => {
+export const LineChart = ({
+  id = 'lineChartdiv',
+  chartData = [],
+  measures,
+  dimension,
+}) => {
   // console.log(data);
   //   const classes = useStyles();
   const nChart = useRef(null);
@@ -96,12 +33,23 @@ export const LineChart = ({ id = 'lineChartdiv', chartData }) => {
       var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = 'dimension';
       categoryAxis.renderer.grid.template.disabled = true;
-      categoryAxis.title.text = 'dimension';
+      categoryAxis.title.text = dimension;
+      categoryAxis.renderer.minGridDistance = 30;
+
+      // label if x axis
+      var labelx = categoryAxis.renderer.labels.template;
+      if (chartData.length > 7) {
+        labelx.maxWidth = 60;
+        labelx.truncate = true;
+      } else {
+        labelx.wrap = true;
+        labelx.maxWidth = 120;
+      }
 
       // Create value axis
       var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-      valueAxis.title.text = 'measure';
+      valueAxis.title.text = measures[0];
       valueAxis.renderer.minLabelPosition = 0.01;
 
       let keys = Object.keys(chartData[0]);
@@ -137,8 +85,6 @@ export const LineChart = ({ id = 'lineChartdiv', chartData }) => {
       chart?.dispose();
     };
     // Chart code goes here
-  }, [id, chartData]);
-  return (
-    <div id={id} ref={nChart} style={{ width: '100%', height: '70%' }}></div>
-  );
+  }, [id, chartData, measures, dimension]);
+  return <div id={id} ref={nChart} className="lineChart"></div>;
 };

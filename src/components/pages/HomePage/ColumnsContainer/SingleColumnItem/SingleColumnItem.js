@@ -19,7 +19,7 @@ export const SingleColumnItem = ({ item }) => {
       <div
         draggable
         onDragStart={(e) => dragStart(e, item)}
-        id={item.function}
+        id={item.name}
         onDragOver={dragOver}
       >
         {item.name || ''}

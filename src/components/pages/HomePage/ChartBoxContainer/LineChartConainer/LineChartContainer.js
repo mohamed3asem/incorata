@@ -4,44 +4,48 @@ import apiAxios from 'src/utils/apiAxios';
 import ErrorBoundry from 'src/components/ErrorBounderies/ErrorBoundary';
 import { LineChart } from 'src/components/Charts/LineChart/LineChart';
 
-export const LineChartContainer = () => {
+export const LineChartContainer = ({ dimension, measures }) => {
   const [charData, setChartData] = useState([]);
-  const fetchData = async () => {
+
+  const fetchData = async (dimension, measures) => {
     let data = await apiAxios.post('data', {
-      measures: ['Cost'],
-      dimension: 'Year',
+      measures,
+      dimension,
     });
     data = data.data;
 
-    // this need to be redited accoring to product
-    let dimension = data.find((item) =>
-      ['Product', 'Year', 'Country'].includes(item.name)
-    );
+    let dimensions = data.find(({ name }) => name === dimension);
 
     let chartData = [];
-    dimension.values.forEach((element) => {
+    dimensions.values.forEach((element) => {
       chartData.push({ dimension: element });
     });
 
     data.forEach(({ name, values }) => {
       name = name === 'Units sold' ? 'UnitsSold' : name;
-      if (['Product', 'Year', 'Country'].includes(name)) return;
+      if (name === dimension) return;
       values.forEach((item, index) => {
         chartData[index][name] = +item.toFixed(1);
       });
     });
 
-    console.log(chartData);
     setChartData(chartData);
   };
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (dimension && measures.length) {
+      fetchData(dimension, measures);
+    }
+  }, [dimension, measures]);
 
   if (!charData.length) return null;
   return (
     <ErrorBoundry>
-      <LineChart chartData={charData} />
+      <LineChart
+        chartData={charData}
+        dimension={dimension}
+        measures={measures}
+      />
     </ErrorBoundry>
   );
 };

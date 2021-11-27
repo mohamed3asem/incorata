@@ -5,17 +5,15 @@ import { LineChartContainer } from './LineChartConainer/LineChartContainer';
 import './ChartBoxContainer.css';
 
 export const ChartBoxContainer = () => {
-  const [measure, setMeasures] = useState([]);
+  const [measures, setMeasures] = useState([]);
   const [dimension, setDimension] = useState();
 
-  console.log(measure);
-  console.log(dimension);
   return (
     <div className="chartBoxContainer">
-      <Box title="dimension" change={setDimension} />
-      <Box title="measure" change={setMeasures} />
+      <Box title="dimension" change={setDimension} boxFunction="dimension" />
+      <Box title="measures" change={setMeasures} boxFunction="measure" />
 
-      <LineChartContainer />
+      <LineChartContainer measures={measures} dimension={dimension} />
     </div>
   );
 };
