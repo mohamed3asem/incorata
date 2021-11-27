@@ -38,7 +38,7 @@ export const LineChartContainer = ({ dimension, measures }) => {
     }
   }, [dimension, measures]);
 
-  if (!charData.length) return null;
+  if (!charData.length || !dimension || !measures.length) return null;
   return (
     <ErrorBoundry>
       <LineChart

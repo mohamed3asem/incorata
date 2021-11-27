@@ -21,6 +21,9 @@ export const SingleColumnItem = ({ item }) => {
         onDragStart={(e) => dragStart(e, item)}
         id={item.name}
         onDragOver={dragOver}
+        style={{
+          background: item.function === 'dimension' ? '#CFFCFF' : '#AAEFDF',
+        }}
       >
         {item.name || ''}
       </div>

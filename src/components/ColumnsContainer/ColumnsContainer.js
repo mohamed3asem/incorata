@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import ErrorBoundry from 'src/components/ErrorBounderies/ErrorBoundary';
 import apiAxios from 'src/utils/apiAxios';
 import { SingleColumnItem } from './SingleColumnItem/SingleColumnItem';
 import './ColumnsContainer.css';
@@ -22,11 +23,13 @@ export const ColumnsContainer = () => {
   }, []);
 
   return (
-    <div className="columnsContainer">
+    <div className="columnsContainer" id="columnsContainer">
       <h2>columns</h2>
-      {columns.map((item) => (
-        <SingleColumnItem item={item} key={item.name} />
-      ))}
+      <ErrorBoundry>
+        {columns.map((item, index) => (
+          <SingleColumnItem item={item} key={item.name || index} />
+        ))}
+      </ErrorBoundry>
     </div>
   );
 };
