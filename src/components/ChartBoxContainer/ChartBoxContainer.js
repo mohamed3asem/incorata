@@ -8,8 +8,6 @@ export const ChartBoxContainer = () => {
   const [measures, setMeasures] = useState([]);
   const [dimension, setDimension] = useState();
 
-  console.log(dimension);
-  console.log(measures);
   return (
     <div className="chartBoxContainer">
       <Box

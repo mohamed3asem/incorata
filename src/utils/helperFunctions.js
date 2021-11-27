@@ -1,6 +1,6 @@
 export const formulateGraphData = (rawData, dimension) => {
   let dimensions = rawData.find(({ name }) => name === dimension);
-  console.log(dimension);
+
   let chartData = [];
   dimensions.values.forEach((element) => {
     chartData.push({ dimension: element });

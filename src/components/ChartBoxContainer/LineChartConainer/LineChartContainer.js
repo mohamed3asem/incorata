@@ -20,7 +20,6 @@ export const LineChartContainer = ({ dimension, measures }) => {
 
   useEffect(() => {
     if (rawData) {
-      console.log(dimension);
       const chartData = formulateGraphData(rawData, dimension);
       setChartData(chartData);
     }
