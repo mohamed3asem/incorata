@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-
 import './ColumnsContainer.css';
 import ErrorBoundry from 'src/components/ErrorBounderies/ErrorBoundary';
-import apiAxios from 'src/utils/apiAxios';
 import { SingleColumnItem } from './SingleColumnItem/SingleColumnItem';
 import { useFetchData } from 'src/hooks/fetchData';
 

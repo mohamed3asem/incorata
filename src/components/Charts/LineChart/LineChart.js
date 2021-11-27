@@ -25,19 +25,19 @@ export const LineChart = ({
         const am4core = modules[0];
         const am4charts = modules[1];
 
-        var chart = am4core.create(id, am4charts.XYChart);
+        chart = am4core.create(id, am4charts.XYChart);
 
         chart.data = chartData;
 
         // Create category axis
-        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = 'dimension';
         categoryAxis.renderer.grid.template.disabled = true;
         categoryAxis.title.text = dimension;
         categoryAxis.renderer.minGridDistance = 30;
 
         // label if x axis
-        var labelx = categoryAxis.renderer.labels.template;
+        let labelx = categoryAxis.renderer.labels.template;
         if (chartData.length > 7) {
           labelx.maxWidth = 60;
           labelx.truncate = true;
@@ -54,12 +54,11 @@ export const LineChart = ({
         chart.scrollbarY = new am4core.Scrollbar();
 
         // markerTemplate.dx = 50
-        nChart.current = chart;
 
         function createAxisAndSeries(field, name, opposite, bullet) {
           var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
           valueAxis.title.text = name;
-          if (chart.yAxes.indexOf(valueAxis) != 0) {
+          if (chart.yAxes.indexOf(valueAxis) !== 0) {
             valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
           }
 
@@ -73,17 +72,17 @@ export const LineChart = ({
           series.tensionX = 0.8;
           series.showOnInit = true;
 
-          var interfaceColors = new am4core.InterfaceColorSet();
+          let interfaceColors = new am4core.InterfaceColorSet();
 
           switch (bullet) {
             case 'triangle':
-              var bullet = series.bullets.push(new am4charts.Bullet());
+              bullet = series.bullets.push(new am4charts.Bullet());
               bullet.width = 12;
               bullet.height = 12;
               bullet.horizontalCenter = 'middle';
               bullet.verticalCenter = 'middle';
 
-              var triangle = bullet.createChild(am4core.Triangle);
+              let triangle = bullet.createChild(am4core.Triangle);
               triangle.stroke = interfaceColors.getFor('background');
               triangle.strokeWidth = 2;
               triangle.direction = 'top';
@@ -91,20 +90,20 @@ export const LineChart = ({
               triangle.height = 12;
               break;
             case 'rectangle':
-              var bullet = series.bullets.push(new am4charts.Bullet());
+              bullet = series.bullets.push(new am4charts.Bullet());
               bullet.width = 10;
               bullet.height = 10;
               bullet.horizontalCenter = 'middle';
               bullet.verticalCenter = 'middle';
 
-              var rectangle = bullet.createChild(am4core.Rectangle);
+              let rectangle = bullet.createChild(am4core.Rectangle);
               rectangle.stroke = interfaceColors.getFor('background');
               rectangle.strokeWidth = 2;
               rectangle.width = 10;
               rectangle.height = 10;
               break;
             default:
-              var bullet = series.bullets.push(new am4charts.CircleBullet());
+              bullet = series.bullets.push(new am4charts.CircleBullet());
               bullet.circle.stroke = interfaceColors.getFor('background');
               bullet.circle.strokeWidth = 2;
               break;
@@ -129,12 +128,15 @@ export const LineChart = ({
               : 'circle';
           createAxisAndSeries(key, key, false, shape);
         });
+
+        nChart.current = chart;
       } catch (e) {
         console.log(e);
       }
     };
 
     createChart();
+
     return () => {
       chart?.dispose();
     };

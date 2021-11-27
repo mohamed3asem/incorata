@@ -1,54 +1,58 @@
+import { useCallback } from 'react';
 import './Box.css';
 
 export const Box = ({
   title = '',
-  change,
+  changeData,
   boxFunction = '',
   dimension,
   measures,
 }) => {
-  const drop = (e) => {
-    const itemFunction = e.dataTransfer.getData('item_function');
-    const itemName = e.dataTransfer.getData('item_name');
+  const drop = useCallback(
+    (e) => {
+      const itemFunction = e.dataTransfer.getData('item_function');
+      const itemName = e.dataTransfer.getData('item_name');
 
-    if (itemFunction !== boxFunction) return;
+      if (itemFunction !== boxFunction) return;
 
-    if (boxFunction === 'dimension') {
-      change(itemName);
-    } else {
-      change((prev) => {
-        let newArr = [...prev, itemName];
-        return newArr;
-      });
-    }
+      if (boxFunction === 'dimension') {
+        changeData(itemName);
+      } else {
+        changeData((prev) => {
+          let newArr = [...prev, itemName];
+          return newArr;
+        });
+      }
 
-    const item = document.getElementById(itemName);
-    item.style.display = 'block';
+      const item = document.getElementById(itemName);
+      item.style.display = 'block';
 
-    e.target.appendChild(item);
-  };
+      e.target.appendChild(item);
+    },
+    [boxFunction]
+  );
 
-  const dragOver = (e) => {
+  const dragOver = useCallback((e) => {
     e.preventDefault();
-  };
+  }, []);
 
-  const clear = () => {
-    const column = document.getElementById('columnsContainer');
-    if (!column) return;
+  const clear = useCallback(() => {
+    const columnsContainer = document.getElementById('columnsContainer');
+    if (!columnsContainer) return;
     if (boxFunction === 'dimension') {
-      const el = document.getElementById(dimension);
-      if (!el) return;
-      column.appendChild(el);
-      change(null);
+      const transferedElement = document.getElementById(dimension);
+      if (!transferedElement) return;
+      columnsContainer.appendChild(transferedElement);
+      changeData(null);
     } else {
       measures.forEach((measure) => {
-        const el = document.getElementById(measure);
-        if (!el) return;
-        column.appendChild(el);
+        const transferedElement = document.getElementById(measure);
+        if (!transferedElement) return;
+        columnsContainer.appendChild(transferedElement);
       });
-      change([]);
+      changeData([]);
     }
-  };
+  }, [dimension, measures, boxFunction]);
 
   return (
     <div className="boxContainer">

@@ -14,14 +14,14 @@ export const ChartBoxContainer = () => {
     <div className="chartBoxContainer">
       <Box
         title="dimension"
-        change={setDimension}
+        changeData={setDimension}
         boxFunction="dimension"
         dimension={dimension}
         measures={measures}
       />
       <Box
         title="measures"
-        change={setMeasures}
+        changeData={setMeasures}
         boxFunction="measure"
         measures={measures}
         dimension={dimension}
