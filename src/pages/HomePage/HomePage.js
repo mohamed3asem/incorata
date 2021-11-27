@@ -1,5 +1,5 @@
-import { ColumnsContainer } from './ColumnsContainer/ColumnsContainer';
-import { ChartBoxContainer } from './ChartBoxContainer/ChartBoxContainer';
+import { ColumnsContainer, ChartBoxContainer } from 'src/components/';
+
 import './HomePage.css';
 
 export const HomePage = () => {

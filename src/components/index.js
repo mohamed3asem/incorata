@@ -1,3 +1,4 @@
-import { HomePage } from './pages/HomePage/HomePage';
+import { ColumnsContainer } from 'src/components/ColumnsContainer/ColumnsContainer';
+import { ChartBoxContainer } from 'src/components/ChartBoxContainer/ChartBoxContainer';
 
-export { HomePage };
+export { ChartBoxContainer, ColumnsContainer };
