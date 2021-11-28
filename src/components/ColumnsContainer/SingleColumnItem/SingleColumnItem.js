@@ -16,6 +16,7 @@ export const SingleColumnItem = ({ item }) => {
     <ErrorBoundry>
       <div
         draggable
+        data-testid={`column-${item.name}`}
         onDragStart={(e) => dragStart(e, item)}
         id={item.name}
         onDragOver={dragOver}
