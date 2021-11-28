@@ -59,6 +59,7 @@ export const Box = memo(
         <div
           className="box"
           id="board"
+          data-testid="dropBox"
           onDrop={drop}
           onDragOver={dragOver}
           style={{

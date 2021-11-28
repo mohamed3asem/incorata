@@ -4,7 +4,7 @@ import { SingleColumnItem } from './SingleColumnItem/SingleColumnItem';
 import { useFetchData } from 'src/hooks/fetchData';
 
 export const ColumnsContainer = () => {
-  const columns = useFetchData('columns', ['columns']);
+  const columns = useFetchData('columns', []);
 
   if (!columns || !columns.length) return null;
 
